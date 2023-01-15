@@ -1,0 +1,10 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "a daily coding challenge",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "8.30.0",
+    "eslint-config-airbnb-base": "15.0.0"
+  }
+}
