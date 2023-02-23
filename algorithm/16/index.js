@@ -29,7 +29,7 @@ const getTimes = (valve) => {
 };
 
 const pathFinder = (time) => {
-  const paths = [{
+  const queue = [{
     valve: 'AA',
     valves: Object.values(input).filter((e) => e.rate).map((e) => e.valve),
     steps: [],
@@ -37,29 +37,29 @@ const pathFinder = (time) => {
     flow: 0,
   }];
 
-  for (const path of paths) {
-    if (path.time) {
-      const times = getTimes(path.valve);
+  for (const q of queue) {
+    if (q.time) {
+      const times = getTimes(q.valve);
 
-      path.done = true;
+      q.done = true;
 
-      for (const valve of path.valves) {
-        if (path.time - times[valve] > 0) {
-          path.done = false;
+      for (const v of q.valves) {
+        if (q.time - times[v] > 0) {
+          q.done = false;
 
-          paths.push({
-            valve,
-            valves: path.valves.filter((e) => e !== valve),
-            steps: [...path.steps, valve],
-            time: (path.time - times[valve] - 1),
-            flow: (path.time - times[valve] - 1) * input[valve].rate + path.flow,
+          queue.push({
+            valve: v,
+            valves: q.valves.filter((e) => e !== v),
+            steps: [...q.steps, v],
+            time: (q.time - times[v] - 1),
+            flow: (q.time - times[v] - 1) * input[v].rate + q.flow,
           });
         }
       }
     }
   }
 
-  return paths.filter((e) => e.done).sort((a, b) => b.flow - a.flow);
+  return queue.filter((e) => e.done).sort((a, b) => b.flow - a.flow);
 };
 
 module.exports = {
